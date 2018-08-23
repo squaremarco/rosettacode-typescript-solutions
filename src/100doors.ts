@@ -9,9 +9,7 @@ function oneUndredDoors(): Array<number> {
       doors[j] = !doors[j];
     }
   }
-  return doors
-    .map((item, index) => (item ? index + 1 : -1))
-    .filter(item => item > 0);
+  return doors.map((item, index) => (item ? index + 1 : -1)).filter(item => item > 0);
 }
 
 console.log(NOTIFY(`The open doors are: ${oneUndredDoors()}`));
