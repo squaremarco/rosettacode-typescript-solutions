@@ -7,11 +7,7 @@ function twentyFour(randNumbers: Array<number>, input: string): void {
   const strippedInput = input.replace(/\s/g, '');
 
   if (!strippedInput.match(/[-+*\/)(\d]/g)) {
-    console.log(
-      ERROR(
-        '\nInvalid input - only numbers, whitespaces and + - * / allowed.\n'
-      )
-    );
+    console.log(ERROR('\nInvalid input - only numbers, whitespaces and + - * / allowed.\n'));
     return;
   }
 
@@ -40,14 +36,10 @@ function twentyFour(randNumbers: Array<number>, input: string): void {
   }
 }
 
-const randNumbers: Array<number> = Array.from({ length: 4 }, () =>
-  Math.ceil(Math.random() * 9)
-).sort();
+const randNumbers: Array<number> = Array.from({ length: 4 }, () => Math.ceil(Math.random() * 9)).sort();
 
 while (true) {
-  let answer = readline.question(
-    `These are the generated numbers: ${randNumbers}, insert expression:\n> `
-  );
+  let answer = readline.question(`These are the generated numbers: ${randNumbers}, insert expression:\n> `);
   if (answer === 'exit') process.exit();
   twentyFour(randNumbers, answer);
 }

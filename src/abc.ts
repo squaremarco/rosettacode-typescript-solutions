@@ -11,9 +11,7 @@ function checkWord(word: string): boolean {
   ) {
     return false;
   }
-  let blocks: Array<
-    Array<string>
-  > = 'BO XK DQ CP NA GT RE TG QD FS JW HU VI AN OB ER FS LY PC ZM'
+  let blocks: Array<Array<string>> = 'BO XK DQ CP NA GT RE TG QD FS JW HU VI AN OB ER FS LY PC ZM'
     .split(' ')
     .map(pair => pair.split(''));
   for (let i = 0; i < normalizedLetters.length; i++) {
@@ -31,9 +29,7 @@ function checkWord(word: string): boolean {
 
 const TRUE: string = NOTIFY('true');
 const FALSE: string = ERROR('false');
-['A', 'AAA', 'BARK', 'BOOK', 'TREAT', 'COMMON', 'SQUAD', 'CONFUSE'].forEach(
-  word => {
-    const result = checkWord(word);
-    console.log(`${word}: ${result ? TRUE : FALSE}`);
-  }
-);
+['A', 'AAA', 'BARK', 'BOOK', 'TREAT', 'COMMON', 'SQUAD', 'CONFUSE'].forEach(word => {
+  const result = checkWord(word);
+  console.log(`${word}: ${result ? TRUE : FALSE}`);
+});
