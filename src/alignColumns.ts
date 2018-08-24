@@ -1,20 +1,4 @@
-enum Justify {
-  LEFT,
-  CENTER,
-  RIGHT
-}
-
-function justifyString(string: string, maxChars: number, justify: Justify): string {
-  switch (justify) {
-    case Justify.LEFT:
-      return `${string}${' '.repeat(maxChars - string.length)}`;
-    case Justify.RIGHT:
-      return `${' '.repeat(maxChars - string.length)}${string}`;
-    case Justify.CENTER:
-      let diff = maxChars - string.length;
-      return `${' '.repeat(Math.floor(diff / 2))}${string}${' '.repeat(Math.ceil(diff / 2))}`;
-  }
-}
+import {Justify, justifyString } from '../utils/justify';
 
 function alignColumns(data: string, separator: string, spacing: number, justify: Justify): string {
   const sanitizedData = data.split('\n').map(el => el.replace(/\s/g, '').split(separator));
@@ -60,6 +44,6 @@ column$are$separated$by$at$least$one$space.
 justified, $right$justified, $or$center$justified$within$its$column.`,
     '$',
     5,
-    Justify.LEFT
+    Justify.RIGHT
   )
 );
