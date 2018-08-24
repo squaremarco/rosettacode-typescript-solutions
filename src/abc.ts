@@ -4,6 +4,7 @@ function checkWord(word: string): boolean {
   //optimization
   const normalizedLetters: Array<string> = [...word.toUpperCase()];
   if (
+    normalizedLetters.length > 26 ||
     normalizedLetters
       .sort()
       .join('')
