@@ -8,7 +8,7 @@ function generateBrackets(n: number) {
 
 function balancedBrackets(input: string): boolean {
   if (!input) return true;
-  if (input.length === 1) return false;
+  if (input.length % 2 !== 0) return false;
 
   let leftStack: Array<string> = [];
 
