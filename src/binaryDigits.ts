@@ -9,7 +9,7 @@ function binToDecimalIterative(b: string): number {
 
 function binDigitsIterative(n: number): string {
   let result: Array<string> = [];
-  let i = n;
+  let i: number = n;
   do {
     result.unshift(`${i % 2}`);
     i = Math.trunc(i / 2);
