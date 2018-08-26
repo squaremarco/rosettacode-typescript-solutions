@@ -1,7 +1,7 @@
-import { config, add, multiply, subtract, divide, sqrt, pow } from 'mathjs'; //operators
+import { config, format, add, multiply, subtract, divide, sqrt, pow } from 'mathjs'; //operators
 import { BigNumber, bignumber } from 'mathjs'; //types
 
-const precision: number = 64;
+const precision: number = 1000;
 config({
   precision
 });
@@ -24,17 +24,23 @@ export function agmPI(tolerance: BigNumber = bignumber(`10E-${precision}`)): Big
   return <BigNumber>divide(multiply(bignumber(4), pow(agm0, 2)), subtract(bignumber(1), sum));
 }
 
-export default function agm(a: BigNumber, g: BigNumber, tolerance: BigNumber = bignumber(`10E-${precision}`)): BigNumber {
-  if (!a.isPos() || !g.isPos() || a.lt(g)) return bignumber(-1);
-  let an: BigNumber = a;
-  let gn: BigNumber = g;
+export default function agm(
+  a: BigNumber | number,
+  g: BigNumber | number,
+  tolerance: BigNumber = bignumber(`10E-${precision}`)
+): BigNumber {
+  let an: BigNumber = typeof a === 'number' ? bignumber(a) : a;
+  let gn: BigNumber = typeof g === 'number' ? bignumber(g) : g;
+  if (!an.isPos() || !gn.isPos() || an.lt(gn)) return bignumber(-1);
   while ((<BigNumber>subtract(an, gn)).gt(tolerance)) {
     [an, gn] = [<BigNumber>multiply(bignumber(0.5), add(an, gn)), <BigNumber>sqrt(<BigNumber>multiply(an, gn))];
   }
   return an;
 }
 
-
-
-//console.log(format(agm(bignumber(1), bignumber(1 / sqrt(2)))));
-//console.log(format(agm(bignumber(24), bignumber(6))));
+console.log(
+  '\n%s\n\n%s\n\n%s\n\n',
+  format(agm(1, 1 / 2 ** (1 / 2))),
+  format(agm(bignumber(24), bignumber(6))),
+  format(agmPI())
+);
