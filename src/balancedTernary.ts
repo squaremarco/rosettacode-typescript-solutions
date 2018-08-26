@@ -10,26 +10,12 @@ enum Sign {
 type SignArray = Array<Sign>;
 
 class Ternary {
-  constructor(n?: number);
-  constructor(s?: string);
-  constructor(a?: SignArray);
   constructor(nsa?: number | string | SignArray) {
-    if (nsa instanceof Array) {
-      this.setSigns(nsa);
-    }
-    if (typeof nsa === 'number') {
-      this.setSigns(nsa);
-    }
-    if (typeof nsa === 'string') {
-      this.setSigns(nsa);
-    }
+    if (nsa) this.setSigns(nsa);
   }
 
   private signs: SignArray;
 
-  setSigns(n: number): void;
-  setSigns(s: string): void;
-  setSigns(a: SignArray): void;
   setSigns(nsa: number | string | SignArray): void {
     if (nsa instanceof Array) {
       this.signs = nsa;
@@ -47,27 +33,62 @@ class Ternary {
   }
 
   toNumber(): number {
-    return this.getSigns().reduce((a, c, i) => a + c * Math.pow(3, i), 0);
+    return this.signs.reduce((a, c, i) => a + c * Math.pow(3, i), 0);
   }
 
   toString(): string {
-    return this.getSigns().reduceRight((a, c) => a + (c === Sign.ZERO ? '0' : c === Sign.PLUS ? '+' : '-'), '');
+    return this.signs.reduceRight((a, c) => a + (c === Sign.ZERO ? '0' : c === Sign.PLUS ? '+' : '-'), '');
   }
 
-  static negate(s: SignArray): SignArray;
-  static negate(t: Ternary): Ternary;
-  static negate(ts: Ternary | SignArray): Ternary | SignArray {
-    let map: SignArray = <SignArray>(
-      (ts instanceof Ternary ? ts.getSigns() : ts).map(el => el * Sign.MINUS || Sign.ZERO)
+  mostSignificantSign(): Sign {
+    return this.signs[this.signs.length - 1];
+  }
+
+  leastSignificantSign(): Sign {
+    return this.signs[0];
+  }
+
+  isPositive(): boolean {
+    return this.mostSignificantSign() === Sign.PLUS;
+  }
+
+  isNegative(): boolean {
+    return this.mostSignificantSign() === Sign.MINUS;
+  }
+
+  isPositiveOrZero(): boolean {
+    return !this.isNegative();
+  }
+
+  isNegativeOrZero(): boolean {
+    return !this.isPositive();
+  }
+
+  negate(): Ternary {
+    return Ternary.negate(this);
+  }
+
+  add(b: Ternary | SignArray) {
+    return Ternary.add(this, b);
+  }
+  subtract(b: Ternary | SignArray) {
+    return Ternary.subtract(this, b);
+  }
+
+  multiply(b: Ternary | SignArray) {
+    return Ternary.multiply(this, b);
+  }
+
+  private static negate(ts: Ternary | SignArray): Ternary {
+    let negatedSigns: SignArray = <SignArray>(
+      (ts instanceof Ternary ? ts.signs : ts).map(el => el * Sign.MINUS || Sign.ZERO)
     );
-    return ts instanceof Ternary ? new Ternary(map) : map;
+    return new Ternary(negatedSigns);
   }
 
-  static add(a: SignArray, b: SignArray): SignArray;
-  static add(a: Ternary, b: Ternary): Ternary;
-  static add(a: Ternary | SignArray, b: Ternary | SignArray): Ternary | SignArray {
-    const aa: SignArray = a instanceof Ternary ? a.getSigns() : a;
-    const bb: SignArray = b instanceof Ternary ? b.getSigns() : b;
+  private static add(a: Ternary | SignArray, b: Ternary | SignArray): Ternary {
+    const aa: SignArray = a instanceof Ternary ? a.signs : a;
+    const bb: SignArray = b instanceof Ternary ? b.signs : b;
 
     const outputArr: SignArray = [Sign.ZERO, Sign.PLUS, Sign.MINUS, Sign.ZERO, Sign.PLUS, Sign.MINUS, Sign.ZERO];
     const carryArr: SignArray = [Sign.MINUS, Sign.MINUS, Sign.ZERO, Sign.ZERO, Sign.ZERO, Sign.PLUS, Sign.PLUS];
@@ -85,21 +106,16 @@ class Ternary {
 
     for (let i = result.length - 1; result[i] === Sign.ZERO; i++) result.pop();
 
-    return a instanceof Ternary ? new Ternary(result) : result;
+    return new Ternary(result);
   }
 
-  static subtract(a: SignArray, b: SignArray): SignArray;
-  static subtract(a: Ternary, b: Ternary): Ternary;
-  static subtract(a: Ternary | SignArray, b: Ternary | SignArray): Ternary | SignArray {
-    if (a instanceof Ternary && b instanceof Ternary) return Ternary.add(a, Ternary.negate(b));
-    if (a instanceof Array && b instanceof Array) return Ternary.add(a, Ternary.negate(b));
+  private static subtract(a: Ternary | SignArray, b: Ternary | SignArray): Ternary {
+    return Ternary.add(a, Ternary.negate(b));
   }
 
-  static multiply(a: SignArray, b: SignArray): SignArray;
-  static multiply(a: Ternary, b: Ternary): Ternary;
-  static multiply(a: Ternary | SignArray, b: Ternary | SignArray): Ternary | SignArray {
-    const aa: SignArray = a instanceof Ternary ? a.getSigns() : a;
-    const bb: SignArray = b instanceof Ternary ? b.getSigns() : b;
+  private static multiply(a: Ternary | SignArray, b: Ternary | SignArray): Ternary {
+    const aa: SignArray = a instanceof Ternary ? a.signs : a;
+    const bb: SignArray = b instanceof Ternary ? b.signs : b;
 
     let interResults: Array<SignArray> = [];
     for (let i = 0; i < bb.length; i++) {
@@ -109,20 +125,8 @@ class Ternary {
       }
       interResults.push(inter);
     }
-
-    let result: SignArray = interResults.shift();
-    for (let i = 0; i < interResults.length; i++) {
-      result = Ternary.add(result, interResults[i]);
-    }
-
-    return a instanceof Ternary ? new Ternary(result) : result;
-  }
-
-
-  static divide(a: SignArray, b: SignArray): SignArray;
-  static divide(a: Ternary, b: Ternary): Ternary;
-  static divide(a: Ternary | SignArray, b: Ternary | SignArray): Ternary | SignArray {
-    return new Ternary();
+    
+    return new Ternary(interResults.reduce((acc, curr) => Ternary.add(acc, curr).signs));
   }
 
   private static numberToTernary(n: number): SignArray {
@@ -168,7 +172,7 @@ class Ternary {
 const a: Ternary = new Ternary('+-0++0+');
 const b: Ternary = new Ternary(-436);
 const c: Ternary = new Ternary('+-++-');
-const op: Ternary = Ternary.multiply(a, Ternary.subtract(b, c));
+const op: Ternary = a.multiply(b.subtract(c));
 console.log(
   '\n%s\n%s\n%s\n%s',
   `a: (${a} : ${a.toNumber()})`,
