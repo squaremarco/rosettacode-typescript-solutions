@@ -125,7 +125,7 @@ class Ternary {
       }
       interResults.push(inter);
     }
-    
+
     return new Ternary(interResults.reduce((acc, curr) => Ternary.add(acc, curr).signs));
   }
 
@@ -152,18 +152,20 @@ class Ternary {
     return result;
   }
 
+  private static charToSign(c: string): Sign {
+    switch (c) {
+      case '+':
+        return Sign.PLUS;
+      case '-':
+        return Sign.MINUS;
+      case '0':
+        return Sign.ZERO;
+    }
+  }
+
   private static stringToTernary(s: string): SignArray {
     if (!s.match(/[^-+0]/g)) {
-      return mapRight([...s], el => {
-        switch (el) {
-          case '+':
-            return Sign.PLUS;
-          case '-':
-            return Sign.MINUS;
-          case '0':
-            return Sign.ZERO;
-        }
-      });
+      return mapRight([...s], Ternary.charToSign);
     }
     return undefined;
   }
