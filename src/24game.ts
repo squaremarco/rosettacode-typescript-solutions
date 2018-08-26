@@ -7,7 +7,7 @@ function twentyFour(randNumbers: Array<number>, input: string): void {
   const strippedInput = input.replace(/\s/g, '');
 
   if (!strippedInput.match(/[-+*\/)(\d]/g)) {
-    console.log(ERROR('\nInvalid input - only numbers, whitespaces and + - * / allowed.\n'));
+    console.log(ERROR('\nInvalid input - only numbers, parentheses, whitespaces and + - * / allowed.\n'));
     return;
   }
 
