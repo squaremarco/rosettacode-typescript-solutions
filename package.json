@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "declarations": "rimraf declarations && tsc -p tsconfig.d.json",
     "start": "rimraf dist && tsc -w"
   },
   "author": "squaremarco",
