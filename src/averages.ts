@@ -1,3 +1,9 @@
+//TODO: angles mean
+//TODO: time of day mean
+//TODO: mean variance stddev for bignumbers / big data sets
+//IDEA: https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+//IDEA: https://stackoverflow.com/questions/10365119/mean-value-and-standard-deviation-of-a-very-huge-data-set
+
 function arithmeticMean(arr: Array<number>): number {
   if (!arr.length) return NaN;
   return arr.reduce((a, c) => a + c, 0) / arr.length;

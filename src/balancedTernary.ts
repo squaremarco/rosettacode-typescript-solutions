@@ -9,6 +9,10 @@ enum Sign {
 
 type SignArray = Array<Sign>;
 
+//TODO: division support
+//TODO: right shift support
+//TODO: left shift support
+
 class Ternary {
   constructor(nsa?: number | string | SignArray) {
     if (nsa) this.setSigns(nsa);

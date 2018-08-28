@@ -1,3 +1,9 @@
+//IDEA: http://www.eternallyconfuzzled.com/tuts/datastructures/jsw_tut_avl.aspx
+//IDEA: https://github.com/gwtw/js-avl-tree/blob/master/src/avl-tree.js
+//IDEA: https://www.typescriptlang.org/docs/handbook/classes.html
+//TODO: key search method
+//TODO: node delete method
+
 type Item = {
   key: number;
   value: any;
