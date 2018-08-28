@@ -1,14 +1,21 @@
-/**
- * TODO: FIX NUMBER PRECISION
- */
-import { fraction, Fraction, subtract, multiply, format } from 'mathjs';
+import { BigNumber } from 'bignumber.js';
 
-function bernoulli(n: number): Fraction {
-  let a: Array<Fraction> = new Array(n + 1);
+const precision: number = 200;
+BigNumber.config({
+  DECIMAL_PLACES: precision,
+  EXPONENTIAL_AT: precision,
+})
+
+type BigArray = Array<BigNumber>;
+
+function bernoulli(n: number): BigNumber {
+  const one: BigNumber = new BigNumber(1);
+
+  let a: BigArray = <BigArray>new Array(n + 1);
   for (let m = 0; m <= n; m++) {
-    a[m] = <Fraction>fraction(1, m + 1);
+    a[m] = one.div(new BigNumber(m + 1));
     for (let j = m; j >= 1; j--) {
-      a[j - 1] = <Fraction>multiply(j, subtract(a[j - 1], a[j]));
+      a[j - 1] = new BigNumber(j).times(a[j - 1].minus(a[j]));
     }
   }
   return a[0];
@@ -16,6 +23,6 @@ function bernoulli(n: number): Fraction {
 
 //number precision breaks after 25th Brnoulli's number
 for (let i = 0; i <= 60; i++) {
-  let b: Fraction = bernoulli(i);
-  if (b.n !== 0) console.log(`B(${i}) = ${format(b, { fraction: 'ratio' })}`);
+  let b: Array<String> = bernoulli(i).toFraction(new BigNumber(`10e${precision/4}`));
+  if(b[0] !== '0')console.log(`B(${i}) = ${b[0]} / ${b[1]}`);
 }
