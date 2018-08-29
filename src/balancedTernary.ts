@@ -75,14 +75,15 @@ class Ternary {
     return Ternary.negate(this);
   }
 
-  add(b: Ternary | SignArray) {
+  add(b: Ternary | SignArray): Ternary {
     return Ternary.add(this, b);
   }
-  subtract(b: Ternary | SignArray) {
+
+  subtract(b: Ternary | SignArray): Ternary {
     return Ternary.subtract(this, b);
   }
 
-  multiply(b: Ternary | SignArray) {
+  multiply(b: Ternary | SignArray): Ternary {
     return Ternary.multiply(this, b);
   }
 
