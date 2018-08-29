@@ -12,6 +12,9 @@ type SignArray = Array<Sign>;
 //TODO: division support
 //TODO: right shift support
 //TODO: left shift support
+//IDEA: http://www.mortati.com/glusker/fowler/ternary.htm
+//IDEA: http://userpages.wittenberg.edu/bshelburne/BalancedTernaryTalkSu09.pdf
+//IDEA: http://www.mortati.com/glusker/fowler/ternary.htm
 
 class Ternary {
   constructor(nsa?: number | string | SignArray) {
@@ -123,11 +126,13 @@ class Ternary {
 
     let interResults: Array<SignArray> = [];
     for (let i = 0; i < bb.length; i++) {
-      let inter: SignArray = fill(Array(i), Sign.ZERO);
-      for (let j = 0; j < aa.length; j++) {
-        inter.push(aa[j] * bb[i]);
+      if (bb[i] !== Sign.ZERO) {
+        let inter: SignArray = fill(Array(i), Sign.ZERO);
+        for (let j = 0; j < aa.length; j++) {
+          inter.push(aa[j] * bb[i]);
+        }
+        interResults.push(inter);
       }
-      interResults.push(inter);
     }
 
     return new Ternary(interResults.reduce((acc, curr) => Ternary.add(acc, curr).signs));
