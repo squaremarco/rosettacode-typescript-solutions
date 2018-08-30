@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "noImplicitAny": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "downlevelIteration": true,
     "module": "commonjs",
     "lib": ["es5", "es6"],
