@@ -5,7 +5,7 @@ import { NOTIFY, ERROR, WARN } from '../utils/colors';
 
 function twentyFour(): void {
   while (true) {
-    const randNumbers: Array<number> = Array.from({ length: 4 }, () => Math.ceil(Math.random() * 9)).sort();
+    const randNumbers: number[] = Array.from({ length: 4 }, () => Math.ceil(Math.random() * 9)).sort();
     let input = readline.question(`These are the generated numbers: ${randNumbers}, insert expression:\n> `);
     if (input === 'exit') process.exit();
 

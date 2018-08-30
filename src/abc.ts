@@ -2,7 +2,7 @@ import { ERROR, NOTIFY } from '../utils/colors';
 
 function checkWord(word: string): boolean {
   //optimization
-  const normalizedLetters: Array<string> = [...word.toUpperCase()];
+  const normalizedLetters: string[] = [...word.toUpperCase()];
   if (
     normalizedLetters.length > 26 ||
     normalizedLetters
@@ -12,7 +12,7 @@ function checkWord(word: string): boolean {
   ) {
     return false;
   }
-  let blocks: Array<Array<string>> = 'BO XK DQ CP NA GT RE TG QD FS JW HU VI AN OB ER FS LY PC ZM'
+  let blocks: string[][] = 'BO XK DQ CP NA GT RE TG QD FS JW HU VI AN OB ER FS LY PC ZM'
     .split(' ')
     .map(pair => pair.split(''));
   for (let i = 0; i < normalizedLetters.length; i++) {

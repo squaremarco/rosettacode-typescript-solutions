@@ -10,7 +10,7 @@ function balancedBrackets(input: string): boolean {
   if (!input) return true;
   if (input.length % 2 !== 0) return false;
 
-  let leftStack: Array<string> = [];
+  let leftStack: string[] = [];
 
   for (let i = 0; i < input.length; i++) {
     let current = input[i];

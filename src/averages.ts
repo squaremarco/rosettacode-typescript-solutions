@@ -4,29 +4,29 @@
 //IDEA: https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
 //IDEA: https://stackoverflow.com/questions/10365119/mean-value-and-standard-deviation-of-a-very-huge-data-set
 
-function arithmeticMean(arr: Array<number>): number {
+function arithmeticMean(arr: number[]): number {
   if (!arr.length) return NaN;
   return arr.reduce((a, c) => a + c, 0) / arr.length;
 }
 
-function geometricMean(arr: Array<number>): number {
+function geometricMean(arr: number[]): number {
   if (!arr.length) return NaN;
   return arr.reduce((a, c) => a * c, 1) ** (1 / arr.length);
 }
 
-function harmonicMean(arr: Array<number>): number {
+function harmonicMean(arr: number[]): number {
   if (!arr.length) return NaN;
   return arr.length / arr.reduce((a, c) => a + 1 / c, 0);
 }
 
 //root mean square
-function rms(arr: Array<number>): number {
+function rms(arr: number[]): number {
   if (!arr.length) return NaN;
   return (arr.reduce((a, c) => a ** 2 + c ** 2, 0) / arr.length) ** (1 / 2);
 }
 
 //mean, variance, stdev
-function mvs(arr: Array<number>): { m: number; v: number; s: number } {
+function mvs(arr: number[]): { m: number; v: number; s: number } {
   if (!arr.length) return { m: NaN, v: NaN, s: NaN };
   let m: number = arithmeticMean(arr);
   let v: number = arr.reduce((a, c) => a + (c - m) ** 2, 0) / arr.length;
@@ -35,7 +35,7 @@ function mvs(arr: Array<number>): { m: number; v: number; s: number } {
 }
 
 //sampled mvs
-function smvs(arr: Array<number>): { m: number; v: number; s: number } {
+function smvs(arr: number[]): { m: number; v: number; s: number } {
   if (!arr.length) return { m: NaN, v: NaN, s: NaN };
   let m: number = arithmeticMean(arr);
   let v: number = arr.reduce((a, c) => a + (c - m) ** 2, 0) / (arr.length - 1);
@@ -67,16 +67,16 @@ function cmvs(): (n?: number) => { m: number; v: number; s: number } {
 }
 
 //simple moving average
-function smv(period: number): (value?: number) => { m: number; stream: Array<number> } {
+function smv(period: number): (value?: number) => { m: number; stream: number[] } {
   if (period < 1) throw new Error('NonPositivePeriod');
   if (period % 1 !== 0) throw new Error('NonIntegerPeriod');
   
   const P: number = period;
   let sum: number = 0;
   let m: number = 0;
-  let stream: Array<number> = [];
+  let stream: number[] = [];
 
-  return (n?: number): { m: number; stream: Array<number> } => {
+  return (n?: number): { m: number; stream: number[] } => {
     if (typeof n === 'undefined') return { m, stream };
     stream.push(n);
     sum += n;
@@ -90,7 +90,7 @@ function smv(period: number): (value?: number) => { m: number; stream: Array<num
   };
 }
 
-function mode(arr: Array<number>): number | Array<number> {
+function mode(arr: number[]): number | number[] {
   const countIterable: IterableIterator<[number, number]> = arr
     .reduce((a, c) => {
       if (!a.has(c)) return a.set(c, 1);
@@ -99,7 +99,7 @@ function mode(arr: Array<number>): number | Array<number> {
     .entries();
 
   let maxCount: number = -1;
-  let result: Array<number> = [];
+  let result: number[] = [];
 
   for (let el of countIterable) {
     if (el[1] === maxCount) {
@@ -115,7 +115,7 @@ function mode(arr: Array<number>): number | Array<number> {
   return result.length === 1 ? result[0] : result;
 }
 
-function median(arr: Array<number>): number {
+function median(arr: number[]): number {
   let arrCopy = [...arr].sort();
   let index = arrCopy.length / 2;
   if (arrCopy.length % 2 === 0) return (arrCopy[index] + arrCopy[index - 1]) / 2;

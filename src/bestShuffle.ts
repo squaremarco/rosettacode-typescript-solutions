@@ -1,7 +1,7 @@
 import { random } from 'lodash';
 import shuffle from '../utils/shuffle';
 
-function bestShuffle(input: Array<number>): { shuffledInput: Array<number>; overlap: number } {
+function bestShuffle(input: number[]): { shuffledInput: number[]; overlap: number } {
   let duplicates: { [key: number]: any } = input.reduce(
     (a, c) => {
       a[c] = !a[c] ? 1 : a[c] + 1;
@@ -18,7 +18,7 @@ function bestShuffle(input: Array<number>): { shuffledInput: Array<number>; over
   let maxOverlap: number = 2 * (maxDuplication - input.length / 2);
   maxOverlap = maxOverlap > 0 ? maxOverlap : 0;
 
-  let shuffledInput: Array<number> = [];
+  let shuffledInput: number[] = [];
   let overlap: number;
   
   while(true) {

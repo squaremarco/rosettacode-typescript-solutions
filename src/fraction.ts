@@ -1,4 +1,5 @@
 //TODO: create from string, float
+//IDEA: https://www.ics.uci.edu/~eppstein/numth/frap.c
 
 class Fraction {
   constructor(n: number, d?: number) {

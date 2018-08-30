@@ -1,5 +1,5 @@
 function recursiveBinarySearch(
-  array: Array<number>,
+  array: number[],
   value: number,
   low: number = 0,
   high: number = array.length - 1,
@@ -12,7 +12,7 @@ function recursiveBinarySearch(
   return mid;
 }
 
-function iterativeBinarySearch(array: Array<number>, value: number, findInsertionIndex: boolean = false): number {
+function iterativeBinarySearch(array: number[], value: number, findInsertionIndex: boolean = false): number {
   let low = 0;
   let high = array.length - 1;
   while (low <= high) {

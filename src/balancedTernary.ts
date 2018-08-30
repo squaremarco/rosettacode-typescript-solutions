@@ -7,8 +7,6 @@ enum Sign {
   MINUS = -1
 }
 
-type SignArray = Array<Sign>;
-
 //TODO: division support
 //TODO: right shift support
 //TODO: left shift support
@@ -17,13 +15,13 @@ type SignArray = Array<Sign>;
 //IDEA: http://www.mortati.com/glusker/fowler/ternary.htm
 
 class Ternary {
-  constructor(nsa?: number | string | SignArray) {
+  constructor(nsa?: number | string | Sign[]) {
     if (nsa) this.setSigns(nsa);
   }
 
-  private signs: SignArray;
+  private signs: Sign[];
 
-  setSigns(nsa: number | string | SignArray): void {
+  setSigns(nsa: number | string | Sign[]): void {
     if (nsa instanceof Array) {
       this.signs = nsa;
     }
@@ -35,7 +33,7 @@ class Ternary {
     }
   }
 
-  getSigns(): SignArray {
+  getSigns(): Sign[] {
     return this.signs;
   }
 
@@ -75,33 +73,31 @@ class Ternary {
     return Ternary.negate(this);
   }
 
-  add(b: Ternary | SignArray): Ternary {
+  add(b: Ternary | Sign[]): Ternary {
     return Ternary.add(this, b);
   }
 
-  subtract(b: Ternary | SignArray): Ternary {
+  subtract(b: Ternary | Sign[]): Ternary {
     return Ternary.subtract(this, b);
   }
 
-  multiply(b: Ternary | SignArray): Ternary {
+  multiply(b: Ternary | Sign[]): Ternary {
     return Ternary.multiply(this, b);
   }
 
-  private static negate(ts: Ternary | SignArray): Ternary {
-    let negatedSigns: SignArray = <SignArray>(
-      (ts instanceof Ternary ? ts.signs : ts).map(el => el * Sign.MINUS || Sign.ZERO)
-    );
+  private static negate(ts: Ternary | Sign[]): Ternary {
+    let negatedSigns: Sign[] = <Sign[]>(ts instanceof Ternary ? ts.signs : ts).map(el => el * Sign.MINUS || Sign.ZERO);
     return new Ternary(negatedSigns);
   }
 
-  private static add(a: Ternary | SignArray, b: Ternary | SignArray): Ternary {
-    const aa: SignArray = a instanceof Ternary ? a.signs : a;
-    const bb: SignArray = b instanceof Ternary ? b.signs : b;
+  private static add(a: Ternary | Sign[], b: Ternary | Sign[]): Ternary {
+    const aa: Sign[] = a instanceof Ternary ? a.signs : a;
+    const bb: Sign[] = b instanceof Ternary ? b.signs : b;
 
-    const outputArr: SignArray = [Sign.ZERO, Sign.PLUS, Sign.MINUS, Sign.ZERO, Sign.PLUS, Sign.MINUS, Sign.ZERO];
-    const carryArr: SignArray = [Sign.MINUS, Sign.MINUS, Sign.ZERO, Sign.ZERO, Sign.ZERO, Sign.PLUS, Sign.PLUS];
+    const outputArr: Sign[] = [Sign.ZERO, Sign.PLUS, Sign.MINUS, Sign.ZERO, Sign.PLUS, Sign.MINUS, Sign.ZERO];
+    const carryArr: Sign[] = [Sign.MINUS, Sign.MINUS, Sign.ZERO, Sign.ZERO, Sign.ZERO, Sign.PLUS, Sign.PLUS];
 
-    let result: SignArray = [];
+    let result: Sign[] = [];
     let carry: Sign = Sign.ZERO;
     let maxLen: number = Math.max(aa.length, bb.length);
 
@@ -117,18 +113,18 @@ class Ternary {
     return new Ternary(result);
   }
 
-  private static subtract(a: Ternary | SignArray, b: Ternary | SignArray): Ternary {
+  private static subtract(a: Ternary | Sign[], b: Ternary | Sign[]): Ternary {
     return Ternary.add(a, Ternary.negate(b));
   }
 
-  private static multiply(a: Ternary | SignArray, b: Ternary | SignArray): Ternary {
-    const aa: SignArray = a instanceof Ternary ? a.signs : a;
-    const bb: SignArray = b instanceof Ternary ? b.signs : b;
+  private static multiply(a: Ternary | Sign[], b: Ternary | Sign[]): Ternary {
+    const aa: Sign[] = a instanceof Ternary ? a.signs : a;
+    const bb: Sign[] = b instanceof Ternary ? b.signs : b;
 
-    let interResults: Array<SignArray> = [];
+    let interResults: Sign[][] = [];
     for (let i = 0; i < bb.length; i++) {
       if (bb[i] !== Sign.ZERO) {
-        let inter: SignArray = fill(Array(i), Sign.ZERO);
+        let inter: Sign[] = fill(Array(i), Sign.ZERO);
         for (let j = 0; j < aa.length; j++) {
           inter.push(aa[j] * bb[i]);
         }
@@ -139,10 +135,10 @@ class Ternary {
     return new Ternary(interResults.reduce((acc, curr) => Ternary.add(acc, curr).signs));
   }
 
-  private static numberToTernary(n: number): SignArray {
+  private static numberToTernary(n: number): Sign[] {
     if (n === 0) return [Sign.ZERO];
 
-    let result: SignArray = [];
+    let result: Sign[] = [];
     let isPositive: boolean = Math.sign(n) > 0;
     let i: number = Math.abs(n);
 
@@ -173,7 +169,7 @@ class Ternary {
     }
   }
 
-  private static stringToTernary(s: string): SignArray {
+  private static stringToTernary(s: string): Sign[] {
     if (!s.match(/[^-+0]/g)) {
       return mapRight([...s], Ternary.charToSign);
     }

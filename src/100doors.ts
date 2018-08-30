@@ -2,7 +2,7 @@ import { fill } from 'lodash';
 
 import { NOTIFY } from '../utils/colors';
 
-function oneUndredDoors(): Array<number> {
+function oneUndredDoors(): number[] {
   let doors: Array<boolean> = fill(Array(100), false);
   for (let i = 1; i <= 100; i++) {
     for (let j = i - 1; j < 100; j += i) {

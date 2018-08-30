@@ -11,7 +11,7 @@ function alignColumns(data: string, separator: string, spacing: number, justify:
     maxCols = Math.max(sanitizedData[i].length, maxCols);
   }
 
-  let maxCharsByCol: Array<number> = [];
+  let maxCharsByCol: number[] = [];
 
   for (let j = 0; j < maxCols; j++) {
     let max = -1;
@@ -21,7 +21,7 @@ function alignColumns(data: string, separator: string, spacing: number, justify:
     maxCharsByCol.push(max + spacing);
   }
 
-  let spacedData: Array<Array<string>> = [];
+  let spacedData: string[][] = [];
 
   for (let i = 0; i < rows; i++) {
     let array = [];

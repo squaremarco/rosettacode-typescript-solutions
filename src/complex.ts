@@ -21,7 +21,7 @@ class Complex {
   constructor(p: Polar);
   constructor(a: number[]);
   constructor(re: number, im?: number);
-  constructor(r: number | Polar | Cartesian | Array<number>, i?: number) {
+  constructor(r: number | Polar | Cartesian | number[], i?: number) {
     if (isCartesian(r)) {
       this.re = r.x;
       this.im = r.y;
