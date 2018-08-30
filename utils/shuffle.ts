@@ -1,6 +1,6 @@
 import { random } from 'lodash';
-export default function shuffle<T>(input: Array<T>): Array<T> {
-  let a: Array<T> = [].concat(input);
+export default function shuffle<T>(input: T[]): T[] {
+  let a: T[] = [].concat(input);
 
   for (let i = 0; i < a.length; i++) {
     let last = a.length - i - 1;

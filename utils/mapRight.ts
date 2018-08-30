@@ -1,10 +1,10 @@
 export default function mapRight<T, U>(
-  array: Array<T>,
-  callbackfn: (value: T, index: number, array: Array<T>) => U,
+  array: T[],
+  callbackfn: (value: T, index: number, array: T[]) => U,
   thisArg?: any
-): Array<U> {
+): U[] {
   if (typeof thisArg !== 'undefined') callbackfn = callbackfn.bind(thisArg);
-  return array.reduceRight((accumulator: Array<U>, current: T, index: number, arr: Array<T>) => {
+  return array.reduceRight((accumulator: U[], current: T, index: number, arr: T[]) => {
     return (accumulator = accumulator.concat(callbackfn(current, index, arr)));
   }, []);
 }

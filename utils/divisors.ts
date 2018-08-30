@@ -1,14 +1,14 @@
-export function naiveDivisors(value: number): Array<number> {
-  let divisors:Array<number>=[];
+export function naiveDivisors(value: number): number[] {
+  let divisors:number[]=[];
   for(let i = 1; i <= value; i++){
     if(value % i === 0) divisors.push(i);
   }
   return divisors;
 }
 
-export function divisors(value: number): Array<number> {
-  let low: Array<number> = [];
-  let high: Array<number> = [];
+export function divisors(value: number): number[] {
+  let low: number[] = [];
+  let high: number[] = [];
   for (let i = 1; i <= Math.sqrt(value); i++) {
     if (value % i === 0){
       if(value / i === i){
@@ -22,16 +22,16 @@ export function divisors(value: number): Array<number> {
   return [...low,...high];
 }
 
-export function properDivisors(value: number): Array<number> {
+export function properDivisors(value: number): number[] {
   if (value <= 1) return [];
-  let proper: Array<number>= divisors(value);
+  let proper: number[]= divisors(value);
   proper.pop();
   return proper;
 }
 
-export function restrictedDivisors(value: number): Array<number> {
+export function restrictedDivisors(value: number): number[] {
   if(value <= 2) return [];
-  let restricted: Array<number> = divisors(value);
+  let restricted: number[] = divisors(value);
   restricted.shift();
   return restricted;
 }
