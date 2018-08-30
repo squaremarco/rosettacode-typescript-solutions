@@ -1,3 +1,5 @@
+//TODO: test and eventually fix precision errors
+
 type Cartesian = {
   x: number;
   y: number;
@@ -16,7 +18,7 @@ function isPolar(x: any): x is Polar {
   return x.r !== undefined && x.p !== undefined;
 }
 
-class Complex {
+export default class Complex {
   constructor(c: Cartesian);
   constructor(p: Polar);
   constructor(a: number[]);
@@ -32,8 +34,8 @@ class Complex {
       this.re = r[0] || 0;
       this.im = r[1] || 0;
     } else {
-      this.re = r;
-      this.im = i;
+      this.re = r || 0;
+      this.im = i || 0;
     }
   }
 
@@ -49,7 +51,9 @@ class Complex {
   }
 
   modulus(): number {
-    return Math.sqrt(this.re * this.re + this.im * this.im);
+    let m: number = this.re * this.re + this.im * this.im;
+
+    return Math.sqrt(m);
   }
 
   argument(): number {
@@ -98,10 +102,9 @@ class Complex {
   sqrt(): Complex {
     const a: number = Math.SQRT1_2; //0.5 * sqrt(2)
     const m: number = this.modulus();
-
-    if (this.isReal()) return new Complex(Math.sqrt(this.re), 0);
-
-    return new Complex(a * Math.sqrt(m + this.re), a * Math.sign(this.im) * Math.sqrt(m - this.re));
+    const is: number = this.im >= 0 ? 1 : -1;
+    
+    return new Complex(a * Math.sqrt(m + this.re), a * is * Math.sqrt(m - this.re));
   }
 
   exp(): Complex {

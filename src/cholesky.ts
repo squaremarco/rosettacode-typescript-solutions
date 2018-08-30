@@ -1,11 +1,31 @@
-//TODO: support complex numbers
-//IDEA: https://en.wikipedia.org/wiki/Cholesky_decomposition#The_Cholesky%E2%80%93Banachiewicz_and_Cholesky%E2%80%93Crout_algorithms
-
 import { flatten } from 'lodash';
+import Complex from './complex';
+
+function choleskyComplex(array: Complex[] | Complex[][]) {
+  const flattenArray: Complex[] = <Complex[]>flatten(array);
+  const n: number = Math.sqrt(flattenArray.length);
+
+  if (n % 1 !== 0) throw new Error('Not a squared matrix');
+
+  let L: Complex[] = <Complex[]>Array(n * n).fill(Complex.ZERO);
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < i + 1; j++) {
+      let sum: Complex = Complex.ZERO;
+
+      for (let k = 0; k < j; k++) {
+        sum = sum.plus(L[i * n + k].times(L[j * n + k].conjugate()));
+      }
+
+      let expr: Complex = flattenArray[i * n + j].minus(sum);
+      L[i * n + j] = i === j ? expr.sqrt() : L[j * n + j].inverse().times(expr);
+    }
+  }
+
+  return L;
+}
 
 function cholesky(array: number[] | number[][]) {
   const flattenArray = flatten(array);
-  console.log(flattenArray);
   const n = Math.sqrt(flattenArray.length);
 
   if (n % 1 !== 0) throw new Error('Not a squared matrix');
@@ -27,5 +47,8 @@ function cholesky(array: number[] | number[][]) {
   return L;
 }
 
-console.log(cholesky([25, 15, -5, 15, 18, 0, -5, 0, 11]));
-console.log(cholesky([[18, 22, 54, 42], [22, 70, 86, 62], [54, 86, 174, 134], [42, 62, 134, 106]]));
+console.log(cholesky([1, 1, 1, 1, 1, 1, 1, 1, 1]));
+console.log(choleskyComplex([1, 1, 1, 1, 1, 1, 1, 1, 1].map(e => new Complex(e, 0))));
+console.log(
+  choleskyComplex([18, 22, 54, 42, 22, 70, 86, 62, 54, 86, 174, 134, 42, 62, 134, 106].map(e => new Complex(e, 0)))
+);
