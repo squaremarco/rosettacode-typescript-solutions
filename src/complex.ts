@@ -40,13 +40,6 @@ class Complex {
   private re: number;
   private im: number;
 
-  setRe(n: number): void {
-    this.re = n;
-  }
-  setIm(n: number): void {
-    this.im = n;
-  }
-
   getRe(): number {
     return this.re;
   }
@@ -112,7 +105,7 @@ class Complex {
   }
 
   exp(): Complex {
-    if (this.isInfinite() || this.im === Infinity) return Complex.NAN;
+    if (this.im === Infinity || this.isInfinite()) return Complex.NAN;
     if (this.isZero()) return Complex.ONE;
     if (this.isReal()) return new Complex(Math.exp(this.re), 0);
 
@@ -152,7 +145,7 @@ class Complex {
   }
 
   equals(z: Complex): boolean {
-    if (this.isInfinite() && z.isInfinite()) return true;
+    if ((this.re === Infinity && z.re === Infinity) || (this.im === Infinity && z.im === Infinity)) return true;
     if (this.isNaN() || z.isNaN()) return false;
 
     return Math.abs(this.re - z.re) <= Complex.EPSILON && Math.abs(this.im - z.im) <= Complex.EPSILON;
@@ -168,8 +161,8 @@ class Complex {
     if (this.isZero()) return '0';
 
     let re: string = this.re !== 0 || this.isReal() ? `${this.re}` : '';
-    let im: string = !this.isReal() ? `${Math.abs(this.im)}` : '';
-    let i: string = !this.isReal() ? (Math.sign(this.im) ? ' + i ' : ' - i ') : '';
+    let im: string = !this.isReal() ? `${Math.abs(this.im)} i` : '';
+    let i: string = !this.isReal() ? (Math.sign(this.im) ? ' + ' : ' - ') : '';
 
     return `${re}${i}${im}`;
   }
