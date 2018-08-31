@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "declarations": "rimraf declarations && tsc -p tsconfig.d.json",
-    "start": "rimraf dist && tsc -w"
+    "start": "rimraf lib && tsc -w"
   },
   "author": "squaremarco",
   "license": "MIT",
   "devDependencies": {
+    "@iamsquare/complex.js": "^0.1.1",
     "@types/cli-color": "^0.3.29",
     "@types/lodash": "^4.14.116",
     "@types/mathjs": "^4.4.1",

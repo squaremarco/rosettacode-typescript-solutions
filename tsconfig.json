@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./dist",
+    "outDir": "lib",
     "noImplicitAny": true,
     "sourceMap": true,
     "downlevelIteration": true,
@@ -9,6 +9,6 @@
     "lib": ["es5", "es6"],
     "target": "es5"
   },
-  "exclude": ["node_modules", "./dist"]
+  "exclude": ["node_modules", "lib", "tests"]
 }
 
