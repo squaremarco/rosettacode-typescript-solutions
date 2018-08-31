@@ -1,5 +1,5 @@
 import { flatten } from 'lodash';
-import Complex from './complex';
+import Complex from '@iamsquare/complex.js';
 
 function choleskyComplex(array: Complex[] | Complex[][]) {
   const flattenArray: Complex[] = <Complex[]>flatten(array);
